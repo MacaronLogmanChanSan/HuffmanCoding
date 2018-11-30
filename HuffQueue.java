@@ -8,5 +8,5 @@ public class HuffQueue
 	{
 		con = new ArrayList<>();
 	}
-	jkdsl;ajfkls;daj
+	akdsfaklejbegwerg
 }
