@@ -8,8 +8,8 @@ public class HuffQueue
 	{
 		con = new ArrayList<>();
 	}
+
 	
 	
-	public enqueue(E val){
-	}
+
 }
