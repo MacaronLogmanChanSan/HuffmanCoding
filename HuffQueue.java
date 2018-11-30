@@ -1,4 +1,11 @@
+import java.util.ArrayList;
 
-public class HuffQueue {
-
+public class HuffQueue 
+{
+	private ArrayList<TreeNode> con;
+	
+	public HuffQueue()
+	{
+		con = new ArrayList<>();
+	}
 }
