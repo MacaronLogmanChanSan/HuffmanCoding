@@ -75,7 +75,7 @@ public class SimpleHuffProcessor implements IHuffProcessor {
 		int bit = bis.readBits(BITS_PER_WORD);
 		int result = 0;
 		while(bit != -1) {
-			result +=8;
+			result += BITS_PER_WORD;
 			counts[bit]++;
 			bit = bis.readBits(BITS_PER_WORD);
 		}
