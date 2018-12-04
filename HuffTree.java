@@ -31,6 +31,8 @@ public class HuffTree
 	{
 		return (HashMap<Integer,String>)values;
 	}
-	
+	public String getCode(Integer chunk) {
+		return values.get(chunk);
+	}
 
 }
