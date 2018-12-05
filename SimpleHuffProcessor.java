@@ -179,6 +179,7 @@ public class SimpleHuffProcessor implements IHuffProcessor {
 			return -1;
 		}
 		int store = bis.readBits(BITS_PER_INT);
+		// can make a helper method with store as parameter
 		// recreate counts
 		if(store == STORE_COUNTS) {
 			counts = new int[ALPH_SIZE];
@@ -188,7 +189,7 @@ public class SimpleHuffProcessor implements IHuffProcessor {
 				counts[k] = bits; 
 			}
 			// make tree again from counts
-			// can make this a helper method in hufftree or huffqueue
+			
 			HuffQueue<TreeNode> hq = new HuffQueue<>();
 			for(int i = 0; i < counts.length; i++) {
 				if(counts[i] != 0) {				
