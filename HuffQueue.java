@@ -1,69 +1,75 @@
 import java.util.ArrayList;
 
-public class HuffQueue<E extends Comparable<? super E>> {
-	private ArrayList<E> con;
+public class HuffQueue<E extends Comparable<? super E>>
+{
+	private ArrayList<TreeNode> con;
+	private int numInternalNode;
 	
-	public HuffQueue (){
+	public HuffQueue()
+	{
 		con = new ArrayList<>();
 	}
-	
-	public int size() {
-		return con.size();
+
+	public void enqueue(TreeNode val) {
+		
+		int index = con.size() - 1;
+		while(index >= 0 && val.compareTo(con.get(index)) >= 0)
+			index--;
+		con.add(index + 1, val);
 	}
-	
-	public void add (E val) {
-		int index = search(val);
-		if (index > con.size() || index < 0)
-			System.out.println(index + ": " + con.size());
-		con.add(search(val), val); 
-	}
-	
-	private int search(E item) {
-    	int low = 0;
-    	int high = con.size() - 1; 
-        while (low <= high) 
-        { 
-            int mid = low + (high - low) / 2;
-            // Check if item is present at mid 
-            if (con.get(mid).compareTo(item) == 0) {
-            	boolean isEqual = true;
-            	while (mid > 0 && isEqual) {
-            		isEqual = con.get(mid).compareTo(con.get(mid - 1)) == 0;
-            		mid--;
-            	}
-            	if (!isEqual)
-            		return mid + 1;
-            	return mid;	
-            }
-            // If item is smaller, ignore left half 
-            if (con.get(mid).compareTo(item) > 0) 
-                low = mid + 1; 
-            // If item is greater, ignore right half 
-            else
-                high = mid - 1; 
-        }
-        return low;
-    }
-	
-	public E dequeue() {
-		if (con.size() == 0)
+
+	public TreeNode dequeue()
+	{
+		if(con.isEmpty())
 			return null;
 		return con.remove(con.size() - 1);
 	}
-	
-	public E peek() {
-		if (con.size() == 0)
+
+	/*public E peek()
+	{
+		if(con.isEmpty())
 			return null;
 		return con.get(con.size() - 1);
-	}
-	
-	public String printList() {
-		StringBuilder s = new StringBuilder();
-		for (int i = con.size() - 1; i >= 0; i--) {
-			s.append(con.get(i).toString());
-			s.append("\n");
+	}*/
+
+	public TreeNode makeTree() {
+		if(con.size() == 0)
+			return null;
+		while(con.size() > 1) {
+			TreeNode left = dequeue();
+			TreeNode right = dequeue();
+			enqueue(new TreeNode(left, left.getFrequency() + right.getFrequency(), right));
+			numInternalNode++;
 		}
-		return s.toString();
+		return con.get(0);
 	}
 	
+	public String toString()
+	{
+		final char OPEN = '[';
+		final char CLOSE = ']';
+		final String COMMA = ", ";
+
+		StringBuilder result = new StringBuilder();
+		result.append(OPEN);
+		for(int i = con.size() - 1; i >= 0; i--)
+		{
+			result.append(con.get(i));
+			if(i != 0)
+				result.append(COMMA);
+		}
+		result.append(CLOSE);
+		return result.toString();
+	}
+
+	public int getNumInternalNode() {
+		return numInternalNode;
+	}
+
+	public void printQueue() {
+		System.out.println(con);
+	}
+
+
+
 }
