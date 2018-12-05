@@ -21,18 +21,25 @@ public class HuffTree
 		if(node != null)
 		{
 			map(node.getLeft(), value + ZERO);
-			if(node.getValue() != 0)
+			if(node.isLeaf())
 				values.put(node.getValue(), value);
 			map(node.getRight(), value + ONE);
 		}
 	}
 	
+	public TreeNode getRoot() {
+		return root;
+	}
+	// returns the size of values
+	public int getSize() {
+		return values.size();
+	}
 	public HashMap<Integer, String> getMappings()
 	{
 		return (HashMap<Integer,String>)values;
 	}
+	
 	public String getCode(Integer chunk) {
 		return values.get(chunk);
 	}
-
 }
