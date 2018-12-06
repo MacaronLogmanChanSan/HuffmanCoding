@@ -200,46 +200,40 @@ public class SimpleHuffProcessor implements IHuffProcessor {
 			tree = new HuffTree(hq.makeTree());
 		}
 		else {
-			//maybe can improve
+			
+			//holds number of bits tree is going to take up
 			int size = bis.readBits(BITS_PER_INT);
-			TreeNode node = null;
-			while(size > 0) {
-				int bits = bis.readBits(1);
-				//System.out.println(bits);
-				size--;
-				if(bits == 0)
-					node = restoreTree(node, -1);
-				else {
-					bits = bis.readBits(BITS_PER_WORD + 1);
-					//System.out.println(bits);
-					node = restoreTree(node, bits);
-					size -= (BITS_PER_WORD + 1);
-				}
-				//System.out.println("size " + size);
-			}
-			tree = new HuffTree(node);
+	   		int[] count = new int[] {size};
+	   		TreeNode root = restoreTree(null, count, bis);
+			tree = new HuffTree(root);;
 		}
 		return decode(bis, bos);
 	}
-
-	private TreeNode restoreTree(TreeNode node, int value) throws IOException
-	{
-		if(node == null) {
-			return new TreeNode(value, 0);
+	
+	
+	
+	private TreeNode restoreTree (TreeNode node, int[] count, BitInputStream in) throws IOException{
+		if (count[0] < 0)
+			throw new IOException("Error reading tree data.");
+		if (count[0] == 0)
+			return node;
+		int bit = in.readBits(1);
+		count[0]--;
+		//node is a leaf with a value
+		if (bit == 1) {
+			count[0] -= BITS_PER_WORD + 1;
+			bit = in.readBits(BITS_PER_WORD + 1);
+			return new TreeNode(bit, 0);
 		}
-		if(node.getValue() > 0)
-			return node;
+		//case for internal node
 		else {
-			if(!restoreTree(node.getLeft(), value).isLeaf()) {
-					node.setLeft(restoreTree(node.getLeft(), value));
-			}
-			else {
-				if(!restoreTree(node.getRight(), value).isLeaf())
-					node.setRight(restoreTree(node.getRight(), value));
-			}
-			return node;
+			TreeNode temp = new TreeNode(-1, 0);
+			temp.setLeft(restoreTree(temp.getLeft(), count, in));
+			temp.setRight(restoreTree(temp.getRight(), count, in));
+			return temp;
 		}
 	}
+    
 	
 	
 	private int decode(BitInputStream bis, BitOutputStream bos) throws IOException {
