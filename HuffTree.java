@@ -9,15 +9,13 @@ public class HuffTree
 	private static final String ZERO = "0";
 	private static final String ONE = "1";
 	
-	public HuffTree(TreeNode node)
-	{
+	public HuffTree(TreeNode node) {
 		values = new HashMap<>();
 		root = node;
 		map(root, "");
 	}
 	
-	private void map(TreeNode node, String value)
-	{
+	private void map(TreeNode node, String value) {
 		if(node != null)
 		{
 			map(node.getLeft(), value + ZERO);
@@ -33,10 +31,6 @@ public class HuffTree
 	// returns the size of values
 	public int getSize() {
 		return values.size();
-	}
-	public HashMap<Integer, String> getMappings()
-	{
-		return (HashMap<Integer,String>)values;
 	}
 	
 	public String getCode(Integer chunk) {
