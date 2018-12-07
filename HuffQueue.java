@@ -5,8 +5,7 @@ public class HuffQueue<E extends Comparable<? super E>>
 	private ArrayList<TreeNode> con;
 	private int numInternalNode;
 	
-	public HuffQueue()
-	{
+	public HuffQueue() {
 		con = new ArrayList<>();
 	}
 
@@ -18,19 +17,17 @@ public class HuffQueue<E extends Comparable<? super E>>
 		con.add(index + 1, val);
 	}
 
-	public TreeNode dequeue()
-	{
+	public TreeNode dequeue() {
 		if(con.isEmpty())
 			return null;
 		return con.remove(con.size() - 1);
 	}
 
-	/*public E peek()
-	{
+	public TreeNode peek() {
 		if(con.isEmpty())
 			return null;
 		return con.get(con.size() - 1);
-	}*/
+	}
 
 	public TreeNode makeTree() {
 		if(con.size() == 0)
@@ -44,16 +41,14 @@ public class HuffQueue<E extends Comparable<? super E>>
 		return con.get(0);
 	}
 	
-	public String toString()
-	{
+	public String toString() {
 		final char OPEN = '[';
 		final char CLOSE = ']';
 		final String COMMA = ", ";
 
 		StringBuilder result = new StringBuilder();
 		result.append(OPEN);
-		for(int i = con.size() - 1; i >= 0; i--)
-		{
+		for(int i = con.size() - 1; i >= 0; i--) {
 			result.append(con.get(i));
 			if(i != 0)
 				result.append(COMMA);
@@ -65,11 +60,5 @@ public class HuffQueue<E extends Comparable<? super E>>
 	public int getNumInternalNode() {
 		return numInternalNode;
 	}
-
-	public void printQueue() {
-		System.out.println(con);
-	}
-
-
 
 }
